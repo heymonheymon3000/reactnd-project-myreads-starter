@@ -2,6 +2,8 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
+import Search from './Search'
+
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -19,12 +21,18 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
+
           <div className="list-books">
+            
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
+
+            {/* div list-books-content start */}
             <div className="list-books-content">
+              {/* div wrapper around multiple shelves elements start */}
               <div>
+                {/* div bookshelf -  Currently Reading start */}
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
                   <div className="bookshelf-books">
@@ -68,6 +76,9 @@ class BooksApp extends React.Component {
                     </ol>
                   </div>
                 </div>
+                {/* div bookshelf -  Currently Reading end */}
+
+                {/* div bookshelf -  Want to Read start */}
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Want to Read</h2>
                   <div className="bookshelf-books">
@@ -111,6 +122,9 @@ class BooksApp extends React.Component {
                     </ol>
                   </div>
                 </div>
+                {/* div bookshelf -  Want to Read end */}
+
+                {/* div bookshelf -  Read start */}
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Read</h2>
                   <div className="bookshelf-books">
@@ -172,41 +186,28 @@ class BooksApp extends React.Component {
                     </ol>
                   </div>
                 </div>
+                {/* div bookshelf -  Read end */}
+
               </div>
+              {/* div wrapper around multiple shelves elements end */}
+
             </div>
+            {/* div list-books-content end */}
+
+
+            {/* div open-search open */}
             <div className="open-search">
               <Link to='/search' className='search-button'>
                 search
               </Link>
             </div>
+            {/* div open-search close */}
+
+
           </div>
         )}/>
 
-        <Route path='/search' render={() => (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-        )}
-        />
-
-
+        <Route path='/search' component={Search} />
       </div>
     )
   }
