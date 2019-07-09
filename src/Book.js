@@ -5,12 +5,10 @@ import noCover from './images/no-cover-image.png';
 const Book = props => {
   const { book, books, changeShelf } = props;
 
-  // add fallbacks for missing cover images and title
-  const coverImg =
-    book.imageLinks && book.imageLinks.thumbnail
-      ? book.imageLinks.thumbnail
-      : noCover;
-  const title = book.title ? book.title : 'No title available';
+  const title = book.title ? book.title : 'Title unavailable';
+  
+  const bookCover =
+    book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : noCover;
 
   return (
     <li>
@@ -18,14 +16,12 @@ const Book = props => {
         <div className="book-top">
           <div
             className="book-cover"
-            style={{ width: 128, height: 193, backgroundImage: `url(${coverImg})`}}
+            style={{ width: 128, height: 193, backgroundImage: `url(${bookCover})`}}
           />
           <ShelfChanger book={book} books={books} changeShelf={changeShelf} />
         </div>
         <div className="book-title">{title}</div>
-        {/* Check for authors and render each on separate line if exist*/
-        book.authors &&
-          book.authors.map((author, index) => (
+        { book.authors && book.authors.map((author, index) => (
             <div className="book-authors" key={index}>
               {author}
             </div>

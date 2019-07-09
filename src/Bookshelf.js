@@ -4,17 +4,13 @@ import Book from './Book'
 const Bookself = props => {
   const { books, changeShelf } = props;
 
+  const bookList = books.map(
+    book => (
+        <Book book={book} books={books} key={book.id} changeShelf={changeShelf}/>
+    ));
+
   return (
-    <ol className="books-grid">
-      {books.map(book => (
-        <Book
-          book={book}
-          books={books}
-          key={book.id}
-          changeShelf={changeShelf}
-        />
-      ))}
-    </ol>
+    <ol className="books-grid">{bookList}</ol>
   );
 }
 

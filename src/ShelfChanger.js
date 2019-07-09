@@ -7,10 +7,8 @@ class ShelfChanger extends Component {
   render() {
     const { book, books } = this.props;
 
-    // set current shelf to none as default
     let currentShelf = 'none';
 
-    // if book is in current list, set current shelf to book.shelf
     for (let item of books) {
       if (item.id === book.id) {
         currentShelf = item.shelf;
