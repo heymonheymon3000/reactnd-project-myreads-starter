@@ -10,19 +10,20 @@ class ShelfChanger extends Component {
     // set current shelf to none as default
     let currentShelf = 'none';
 
-    books.map((item) => {
+    // if book is in current list, set current shelf to book.shelf
+    for (let item of books) {
       if (item.id === book.id) {
         currentShelf = item.shelf;
+        break;
       }
-      return (item)
-    });
+    }
 
     return (
       <div className="book-shelf-changer">
         <select onChange={this.updateShelf} defaultValue={currentShelf}>
-          {/* <option value="none" disabled>
+         <option disabled>
             Move to...
-          </option> */}
+          </option> }
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>

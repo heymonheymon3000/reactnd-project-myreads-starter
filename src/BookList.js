@@ -1,25 +1,31 @@
-import React, { Component } from 'react'
+import React from 'react';
 import Bookshelf from './Bookshelf'
 
-class BookList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+const BookList = props => {
+  const { books, changeShelf } = props;
 
-    render() {
+  const shelfTypes = [
+    { type: 'currentlyReading', title: 'Currently Reading' },
+    { type: 'wantToRead', title: 'Want to Read' },
+    { type: 'read', title: 'Read' }
+  ];
+
+  return (
+    <div className="list-books-content">
+      {shelfTypes.map((shelf, index) => {
+        const shelfBooks = books.filter(book => book.shelf === shelf.type);
         return (
-            <div className="list-books-content">
-              <div>
-                <Bookshelf category={'Currently Reading'}/>
-                <Bookshelf category={'Want to Read'}/>
-                <Bookshelf category={'Read'}/>
-              </div>
+          <div className="bookshelf" key={index}>
+            <h2 className="bookshelf-title">{shelf.title}</h2>
+            <div className="bookshelf-books">
+              <Bookshelf books={shelfBooks} changeShelf={changeShelf} />
             </div>
-        )
-    }
-}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default BookList
 

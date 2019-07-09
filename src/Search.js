@@ -4,33 +4,29 @@ import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class Search extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        query: '',
-        newBooks: [],
-        books: this.props.books,
-        changeShelf: this.props.changeShelf
-      }
-    }
+  state = {
+    query: '',
+    newBooks: []
+  };
 
-    getBooks = event => {
-      const query = event.target.value;
-      this.setState({ query });
-  
-      if (query) {
-        BooksAPI.search(query.trim(), 20).then(books => {
-          books.length > 0 ?
-          this.setState({ newBooks: books }) :
-          this.setState({ newBooks: [] }) 
-        });
-      } else {
-        this.setState({ newBooks: []});
-      }
-    };
+  getBooks = event => {
+    const query = event.target.value;
+    this.setState({ query });
+
+    if (query) {
+      BooksAPI.search(query.trim(), 20).then(books => {
+        books.length > 0 ?
+        this.setState({ newBooks: books }) :
+        this.setState({ newBooks: [] }) 
+      });
+    } else {
+      this.setState({ newBooks: []});
+    }
+  };
 
     render() {
-      console.log('search-booksdsdsddsdsdsdssdsds', this.props.books);
+        const { query, newBooks } = this.state;
+        const { books, changeShelf } = this.props;
 
         return (
             <div className="search-books">
@@ -50,22 +46,22 @@ class Search extends Component {
                 <input
                   type="text"
                   placeholder="Search by title or author"
-                  value={this.state.query}
+                  value={query}
                   onChange={this.getBooks}
                 />
               </div>
             </div>
             <div className="search-books-results">
-                {this.state.newBooks.length > 0 && (
+                {newBooks.length > 0 && (
                   <div>
-                    <h3>Search returned {this.state.newBooks.length} books </h3>
+                    <h3>Search returned {newBooks.length} books </h3>
                     <ol className="books-grid">
-                      {this.state.newBooks.map((book) => (
+                      {newBooks.map((book) => (
                         <Book 
-                          key={book.id} 
                           book={book} 
-                          books={this.props.books}
-                          changeShelf={this.props.changeShelf}/>
+                          books={books}
+                          key={book.id}
+                          changeShelf={changeShelf}/>
                       ))}
                     </ol>
                   </div>
