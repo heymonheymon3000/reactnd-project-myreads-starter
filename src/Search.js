@@ -1,8 +1,37 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
+import Book from './Book'
 
 class Search extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        query: '',
+        newBooks: [],
+        books: this.props.books,
+        changeShelf: this.props.changeShelf
+      }
+    }
+
+    getBooks = event => {
+      const query = event.target.value;
+      this.setState({ query });
+  
+      if (query) {
+        BooksAPI.search(query.trim(), 20).then(books => {
+          books.length > 0 ?
+          this.setState({ newBooks: books }) :
+          this.setState({ newBooks: [] }) 
+        });
+      } else {
+        this.setState({ newBooks: []});
+      }
+    };
+
     render() {
+      console.log('search-booksdsdsddsdsdsdssdsds', this.props.books);
+
         return (
             <div className="search-books">
             <div className="search-books-bar">
@@ -18,11 +47,29 @@ class Search extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input
+                  type="text"
+                  placeholder="Search by title or author"
+                  value={this.state.query}
+                  onChange={this.getBooks}
+                />
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+                {this.state.newBooks.length > 0 && (
+                  <div>
+                    <h3>Search returned {this.state.newBooks.length} books </h3>
+                    <ol className="books-grid">
+                      {this.state.newBooks.map((book) => (
+                        <Book 
+                          key={book.id} 
+                          book={book} 
+                          books={this.props.books}
+                          changeShelf={this.props.changeShelf}/>
+                      ))}
+                    </ol>
+                  </div>
+                )}
             </div>
           </div>
         )

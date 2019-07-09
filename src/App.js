@@ -1,17 +1,40 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
-import Bookshelf from './Bookshelf'
+import BookList from './BookList'
+
+
 import Search from './Search'
 
 import './App.css'
 
 class BooksApp extends React.Component {
-  state = {
+  state = { books: [] };
+
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState({ books: books })}  
+    );
   }
 
+  changeShelf = (changedBook, shelf) => {
+    BooksAPI.update(changedBook, shelf).then(response => {
+      // set shelf for new or updated book
+      changedBook.shelf = shelf;
+      // update state with changed book
+      this.setState(prevState => ({
+        books: prevState.books
+          // remove updated book from array
+          .filter(book => book.id !== changedBook.id)
+          // add updated book to array
+          .concat(changedBook)
+      }));
+    });
+  };
+
   render() {
+    const { books } = this.state;
     return (
       <div className="app">
         <Route exact path='/' render={() => (
@@ -19,13 +42,7 @@ class BooksApp extends React.Component {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-            <div className="list-books-content">
-              <div>
-                <Bookshelf category={'Currently Reading'}/>
-                <Bookshelf category={'Want to Read'}/>
-                <Bookshelf category={'Read'}/>
-              </div>
-            </div>
+            <BookList />
             <div className="open-search">
               <Link to='/search' className='search-button'>
                 search
@@ -34,7 +51,12 @@ class BooksApp extends React.Component {
           </div>
         )}/>
 
-        <Route path='/search' component={Search} />
+        <Route
+            path="/search"
+            render={() => (
+              <Search books={books} changeShelf={this.changeShelf}/>
+            )}
+          />
       </div>
     )
   }
