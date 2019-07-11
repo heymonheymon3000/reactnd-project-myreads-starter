@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
@@ -6,7 +6,7 @@ import BookList from './BookList'
 import Search from './Search'
 import './App.css'
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = { books: [] };
 
   componentDidMount() {
@@ -15,13 +15,13 @@ class BooksApp extends React.Component {
     });
   }
 
-  changeShelf = (changedBook, shelf) => {
-    BooksAPI.update(changedBook, shelf).then(response => {
-      changedBook.shelf = shelf;
+  updateBookCategory = (updateBook, category) => {
+    BooksAPI.update(updateBook, category).then(response => {
+      updateBook.shelf = category;
       this.setState(prevState => ({
-        books: prevState.books
-          .filter(book => book.id !== changedBook.id)
-          .concat(changedBook)
+        books: prevState.books.filter(book => 
+          book.id !== updateBook.id)
+          .concat(updateBook)
       }));
     });
   };
@@ -36,7 +36,7 @@ class BooksApp extends React.Component {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-            <BookList books={books} changeShelf={this.changeShelf}/>
+            <BookList books={books} updateBookCategory={this.updateBookCategory}/>
             <div className="open-search">
               <Link to='/search' className='search-button'>
                 search
@@ -47,7 +47,7 @@ class BooksApp extends React.Component {
         <Route
             path="/search"
             render={() => (
-              <Search books={books} changeShelf={this.changeShelf}/>
+              <Search books={books} updateBookCategory={this.updateBookCategory}/>
             )}
           />
       </div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import ShelfChanger from './ShelfChanger';
+import CategoryChanger from './CategoryChanger';
 import noCover from './images/no-cover-image.png';
 
 const Book = props => {
-  const { book, books, changeShelf } = props;
+  const { book, books, updateBookCategory } = props;
 
   const title = book.title ? book.title : 'Title unavailable';
   
@@ -18,7 +18,7 @@ const Book = props => {
             className="book-cover"
             style={{ width: 128, height: 193, backgroundImage: `url(${bookCover})`}}
           />
-          <ShelfChanger book={book} books={books} changeShelf={changeShelf} />
+          <CategoryChanger book={book} books={books} updateBookCategory={updateBookCategory} />
         </div>
         <div className="book-title">{title}</div>
         { book.authors && book.authors.map((author, index) => (

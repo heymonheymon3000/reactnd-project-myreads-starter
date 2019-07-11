@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 
-class ShelfChanger extends Component {
-  updateShelf = event =>
-    this.props.changeShelf(this.props.book, event.target.value);
+class CategoryChanger extends Component {
+  updateCategory = event =>
+    this.props.updateBookCategory(this.props.book, event.target.value);
 
   render() {
     const { book, books } = this.props;
-
-    let currentShelf = 'none';
+    let currCategory = 'none';
 
     for (let item of books) {
       if (item.id === book.id) {
-        currentShelf = item.shelf;
+        currCategory = item.shelf;
         break;
       }
     }
 
     return (
       <div className="book-shelf-changer">
-        <select onChange={this.updateShelf} defaultValue={currentShelf}>
+        <select onChange={this.updateCategory} defaultValue={currCategory}>
          <option disabled>
             Move to...
           </option> }
@@ -32,4 +31,4 @@ class ShelfChanger extends Component {
   }
 }
 
-export default ShelfChanger;
+export default CategoryChanger;

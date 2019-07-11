@@ -2,7 +2,7 @@ import React from 'react';
 import Bookshelf from './Bookshelf'
 
 const BookList = props => {
-  const { books, changeShelf } = props;
+  const { books, updateBookCategory } = props;
 
   const shelfTypes = [
     { type: 'currentlyReading', title: 'Currently Reading' },
@@ -18,7 +18,7 @@ const BookList = props => {
           <div className="bookshelf" key={index}>
             <h2 className="bookshelf-title">{shelf.title}</h2>
             <div className="bookshelf-books">
-              <Bookshelf books={shelfBooks} changeShelf={changeShelf} />
+              <Bookshelf books={shelfBooks} updateBookCategory={updateBookCategory} />
             </div>
           </div>
         );
