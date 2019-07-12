@@ -4,7 +4,7 @@ import Bookshelf from './Bookshelf'
 const BookList = props => {
   const { books, updateBookCategory } = props;
 
-  const shelfTypes = [
+  const categoryTypes = [
     { type: 'currentlyReading', title: 'Currently Reading' },
     { type: 'wantToRead', title: 'Want to Read' },
     { type: 'read', title: 'Read' }
@@ -12,7 +12,7 @@ const BookList = props => {
 
   return (
     <div className="list-books-content">
-      {shelfTypes.map((shelf, index) => {
+      {categoryTypes.map((shelf, index) => {
         const shelfBooks = books.filter(book => book.shelf === shelf.type);
         return (
           <div className="bookshelf" key={index}>
